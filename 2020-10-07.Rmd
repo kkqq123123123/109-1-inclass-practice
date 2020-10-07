@@ -1,0 +1,76 @@
+---
+title: "課堂練習模版"
+author: "kkqq123123123"
+date: "2020-10-07"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+x = 1
+y = 2
+ls()
+find("x")
+find("y")
+```
+
+```{r}
+vNum1 = c(-1,5)
+vNum2 = c(2,3)
+vNum4 = c()
+```
+```{r}
+vNum3 = c(vNum2,vNum1)
+vNum4 = c(vNum4,vNum1)
+```
+
+```{r}
+myName = "Mary"
+length(myName)
+```
+
+```{r}
+entire = c() #收集資料的方法
+A = sample(165:200, 1)
+entire = c(entire , A)
+```
+
+```{r}
+num1<-5 # 非整數
+num2<-5L # 整數
+
+num1Vector<-c(5,6,7)
+num2Vector<-c(5L,6L,7L)
+```
+
+```{r}
+object.size(num1)  #查看變數所佔的記憶體
+object.size(num2)
+object.size(num1Vector)
+object.size(num2Vector)
+```
+```{r}
+char1Vector<-c("你好","How are you?") #Atomic Vector(儲存的資料內容格式皆相同)
+typeof(char1Vector) #查看變數儲存的格式
+```
+```{r}
+context <- "老師說換行要寫\\n" # 請依下列情境輸入
+cat(context)
+```
+```{r}
+install.packages("styler")
+```
+
+
+
+
+
+
+
