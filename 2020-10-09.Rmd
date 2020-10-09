@@ -1,0 +1,32 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-10-09"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+entire = c()
+```
+
+```{r}
+height = sample(165:200, 1)
+entire = c(entire , height)
+```
+
+```{r}
+entire = c() 
+height = sample(165:200, 1)
+entire = c(entire , height)  #此為錯誤示範
+#因為第二次執行entire = c()會把儲存的資料清空
+```
+
+
