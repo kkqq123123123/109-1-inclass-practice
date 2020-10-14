@@ -1,0 +1,105 @@
+---
+title: "課堂練習模版"
+author: "kkqq123123123"
+date: "2020-10-14"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+"\u0928\u092e\u0938\u094d\u0924\u0947 \u0926\u0941\u0928\u093f\u092f\u093e"
+```
+
+```{r}
+num <- c(1.5, 2, 3)
+int <- c(1L, 3L, -2L)
+char <- c("1.5","2","3")
+logi <- c(T,T,F)
+
+typeof(num)
+typeof(int)
+typeof(char)
+typeof(logi)
+```
+
+```{r}
+class(num)
+class(int)
+class(char)
+class(logi)
+```
+
+```{r}
+"1.5" + "1"  #ERROR!!!!!  字串無法相加 特別注意
+1.5 + 1  #結果為2.5
+"1.5" + 1 #ERROR!!!!! 不同type無法進行運算
+
+```
+
+```{r}
+# Atomic Vector Extended
+
+#Factor (資料只有固定幾類))
+```
+
+```{r}
+# 10位學生的主系  (char的形式)
+majors10_char <- c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+
+typeof(majors10_char)
+class(majors10_char)
+```
+
+
+```{r}
+# 10位學生的主系  (factor的形式)
+majors10_factor = factor(majors10_char)
+# 或
+majors10_factor = factor(
+  c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+)
+
+typeof(majors10_factor)  #以int來儲存 '經濟學系'以2L(整數2)代表 '社會學系'以1L(整數1)代表
+class(majors10_factor)  #factor並不會創造新的type
+```
+
+```{r}
+#as.   .後方加上想改變的形式，即可轉換資料的型態
+```
+
+```{r}
+#ex:
+
+class("1")
+class("1.5")
+```
+
+```{r}
+as.numeric("1")  #結果為數字的1
+```
+
+```{r}
+a = "1"
+a = as.numeric(a)  #記得將a回存(讓a轉為num型態)  否則a仍為char的型態
+a + 4
+```
+
+```{r}
+majors10_char
+majors10_factor #此行多了"level" 用以標明為幾類
+```
+
+```{r}
+as.integer(majors10_factor) #可以將factor的內容還原為儲存的值
+```
+
+
+
+
