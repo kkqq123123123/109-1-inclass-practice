@@ -1,0 +1,129 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-10-18"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+library(lubridate)  #引入套件  可以到Google classroom下載cheatsheets查看使用方式(Date and time cheatsheets)
+```
+
+```{r}
+tpeTime = ymd_hms("2020-03-18 13:52:40",      #用函數設定時間的表示法  y:年 m:月 d:日 h:小時 m:分鐘 s:秒
+        tz="Asia/Taipei")       #設定時區為亞洲 台北
+```
+
+```{r}
+pgTime = mdy_hms("Mar.18, 2020, 05:52:40",
+                  tz="Europe/Lisbon")  
+```
+
+```{r}
+tpeTimeVector = 
+  ymd_hms(
+    c("2020-03-18 13:52:40",
+      "2020-03-11 03:12:40"),   #可用向量來表示同時區的多個時間段
+    tz="Asia/Taipei"
+    )
+```
+
+```{r}
+ymd_hms(
+c("2020-03-18 13:52:40","2020-03-11 03:12:40")  #時間來自UTC(標準時間) 可不用標註時區
+)
+```
+
+```{r}
+typeof(tpeTime)  #時間儲存的格式 double
+class(tpeTime)   #時間的分類  Date / time
+```
+
+```{r}
+tpeTime
+cat(tpeTime)  #時間實際的儲存方式  和1970/1/1 00:00:00比較，差了多少"秒"
+cat(as.character(tpeTime))  #先將時間轉為字元儲存，再用cat  即可表示"2020-03-18 13:52:40"
+```
+
+```{r}
+#轉換時區時間  利用with_tz函數
+
+tpeTime2 = ymd_hms("2010-03-18 16:52:40",
+        tz="Asia/Taipei")
+pgTime2 = mdy_hms("Mar.01, 2020, 03:52:40",
+                  tz="Europe/Lisbon")
+
+
+tpeTime3 = 
+  with_tz(tpeTime2, tzone="America/New_York")  #將此時的臺北時間轉為紐約時間
+
+print(tpeTime2)
+print(tpeTime3)
+
+
+pgTime3 = 
+  with_tz(pgTime2, tzone="America/New_York")  #將此時的葡萄牙時間轉為紐約時間
+
+print(pgTime2)
+print(pgTime3)
+```
+
+```{r}
+# Pass data as it is (Not good), not a character
+tpeTime
+
+# convert to UTC and pass as character
+tpeTime_utc = with_tz(tpeTime, tzone="UTC")
+as.character(tpeTime_utc)
+
+# pass as a character that fits ISO8601 date time description standard with tz onset specified(best way)
+#符合國際規範的時間表示法(各種語言皆適用)
+tpeTime_iso8601 = format_ISO8601(tpeTime, usetz=T)
+tpeTime_iso8601
+```
+
+```{r}
+#如何將不同type以及不同class的資料同時儲存?   ----利用List
+
+listObject = list(value1, value2, value3)  #list基本的表示方法
+```
+
+```{r}
+library(lubridate)
+
+# Date/Time class
+purchasingTime = 
+  ymd_hms("2020-03-31T13:40:55Z")
+
+# character
+location = "一芳"
+item = "水果茶"
+
+# numeric
+quantity = 2
+
+mingsPurchase =
+  list(
+    purchasingTime, 
+    location, 
+    quantity, 
+    item
+  )
+print(mingsPurchase)
+```
+
+
+
+
+
+
+
+
