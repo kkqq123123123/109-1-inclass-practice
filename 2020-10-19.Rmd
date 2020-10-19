@@ -1,0 +1,162 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-10-19"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+```{r}
+library(lubridate)
+
+# Date/Time class
+purchasingTime <- 
+  ymd_hms("2020-03-31T13:40:55Z")
+
+# character
+location <- "一芳"
+item <- "水果茶"
+
+# numeric
+quantity <- 2
+
+mingsPurchase <-
+  list(
+    purchasingTime, 
+    location, 
+    quantity, 
+    item
+  )
+print(mingsPurchase)
+```
+
+```{r}
+#為List中的內容命名
+mingsPurchase2 <-
+  list(
+    time = purchasingTime,
+    'location' = location,
+    "quantity" = quantity,
+    `item name` = item
+  )
+print(mingsPurchase2)
+```
+
+```{r}
+#List的練習
+#請表示出:  小明於「2020-03-31T13:40:55Z」在「一芳」買了「2杯」「水果茶」及「1杯」「日月紅茶」
+# 「**2杯**」「**水果茶**」
+item1 <- list(
+  quantity=2,
+  `item name`="水果茶"
+)
+# 「**1杯**」「**日月紅茶**」
+item2 <- list(
+  quantity=1,
+  `item name`="日月紅茶"
+)
+
+#注意  資料儲存型態不同，因此不可用c( , ,) 而應該使用List
+#List內的成員可以為Vectot或List !
+mingsPurchase3 <-
+  list(
+    time = purchasingTime,
+    location = location,
+    items=list(
+      item1,
+      item2
+    )
+  )
+
+
+print(mingsPurchase3)
+```
+
+```{r}
+#List的使用範例
+
+exampleList = 
+  list(
+    c(4,5,6,7,8),
+    TRUE,
+    list("1.5","Mary",10),
+    "ABC"
+  )
+
+print(exampleList)
+```
+
+```{r}
+#student內共有8個元素
+
+student1 <-
+  list(
+    name = character(),     #1
+    id = character(),     #2
+    gmail = character(),     #3
+    googleClassroom =     #4
+      list(
+        displayName = character()
+      ),
+    github =     #5
+      list(
+        username = character(),
+        repoUrl = character()
+      ),
+    homeworks = list(),     #6
+    exams = list(),     #7
+    list()     #8
+  )
+
+names(student1) # name()可用來顯示元素名稱
+length(student1) # length()可用來顯示元素個數
+```
+
+```{r}
+#List應用 :目錄
+
+categoryTemplate = 
+  list(
+    categoryName=character(),
+    items = list()
+  )
+
+#以categoryName來表達目錄名稱
+#以items來表達目錄所附的內容
+```
+
+```{r}
+#將List轉為json
+#先下載套件"jsonlite"
+library(jsonlite)
+toJSON(mingsPurchase3)
+
+#將List轉為json之後可方便不同的程式語言使用者了解List內的內容
+
+```
+
+```{r}
+#物件儲存與取出
+#利用save(object1, object2, ..., file="myData.Rda")  以及  load("myData.Rda")來完成
+
+object1 <- c(2,5)
+object2 <- ymd_hms(
+  c("2015-03-22 12:28:42","2017-12-22 15:33:48"),
+  tz="Asia/Taipei"
+)
+object3 <- list(2, FALSE, c("a","b","c"))
+save(object1, object2, object3, file="threeObjects.Rda")   #看向右方File  出現了threeObjects.Rda
+```
+
+```{r}
+load("threeObjects.Rda")  #取出threeObjects.Rda檔案內容
+```
+
+
+
