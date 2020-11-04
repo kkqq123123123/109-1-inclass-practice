@@ -1,0 +1,37 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-11-04"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+#取代以及新增元素值
+
+a = c("1", "b", "TRUE")
+print(a)
+
+a[[2]] = "c"  # 元素存在: 替換  把b換為c
+a[[4]] = "7"  # 元素不存在： 增加  增加第4個元素 "7"
+a[c(5, 6)] <- c("J", "K")  #再增加2個元素
+
+print(a)
+```
+
+```{r}
+#練習  以dacrd文章為例
+
+gender = "female" #性別
+school = "國立台北大學" #學校
+title = "問 補習班打工" #標題
+content = "..." #文章內容
+```
+
