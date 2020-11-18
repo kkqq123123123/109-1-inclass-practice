@@ -1,0 +1,82 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-11-18"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+#將上方的例子轉為Data Frame(每個元素的長度皆等長，因此可轉換為data frame)
+#轉為Data Frame後，資料更容易閱讀
+tr_example <- purrr::transpose(example)  #轉置example
+str(tr_example)
+df_example <- as.data.frame(example)
+```
+#注意:只有list裡每個元素值都是
+
+#1.等長度
+
+#2.atomic vector
+
+#才能正確轉成合理的data frame表示形式
+
+```{r}
+#利用[.]來處理矩陣型態的資料
+
+# 使用list的工具$來完成
+df_example$name[c(1,4)]
+
+# 使用data frame的延伸工具`[.row, .column]`
+df_example[c(1,4), "name"]  #打開df_example c(1,4)為row vector  name為column vector
+
+#使用T/F
+df_example[c(1,4), c(T,rep(F,7))]  #只取name這個column,其他不取,rep(F,7)代表重複 F 7次
+
+```
+
+```{r}
+df_example[c(1,4), c("name","residence")]
+
+# 只使用list工具
+list(
+  name=df_example$name[c(1,4)],
+  residence=df_example$residence[c(1,4)]
+)
+# 要小心以下用法是error
+df_example[c("name","residence")][c(1,4)]
+```
+
+```{r}
+#取出小明的hobby
+
+df_example[1,]$hobby
+
+#或
+df_example[1,][[5]]
+
+```
+
+
+
+
