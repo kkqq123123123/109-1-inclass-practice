@@ -1,0 +1,38 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-11-25"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+el1 <-  list(
+  confess = c(10,10),
+  notConfess = c(12,5)
+)
+
+el2 <-  list(
+  confess = c(5,12),
+  notConfess = c(7,7)
+)
+
+payoff <- 
+  list(
+    confess=el1,
+    notConfess=el2
+  )
+
+el1$confess
+el1$notConfess
+el2$confess
+el2$notConfess
+```
+
