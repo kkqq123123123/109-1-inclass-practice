@@ -64,12 +64,11 @@ Clotilde是一位資料科學愛好者，平常在 LINE 做文字資料探勘，
 # Info_UserData
 
 #將user_grade轉為factor並附上level和order
-user_grade_factor = factor(
+Info_UserData$user_grade = factor(
   Info_UserData$user_grade,
-  level = c(1,2,3,4,5,6,7,8,9,10,11,12),
+  level = c("1","2","3","4","5","6","7","8","9","10","11","12"),
   order = T
 )
-
 
 #更新後的 Info_UserData
 Info_UserData
@@ -83,10 +82,11 @@ Info_UserData
 ```{r ans12}
 # User_Counts_with_gender_NA
 
-A = stringr::str_detect(Info_UserData$gender,"NA")
-Info_UserData$uuid[A]
+#挑出性別為NA的使用者
+pick_genderNA = is.na(Info_UserData$gender)
 
-
+#完成題目所求:挑出性別為NA的使用者ID且顯示出個數
+User_Counts_with_gender_NA = length(Info_UserData$gender[pick_genderNA])
 ```
 
 ### 1.3 Main Users
@@ -96,6 +96,13 @@ Info_UserData$uuid[A]
 為了方便往後與其他資料集做整合，決定存取使用者的Id（即變數`uuid`）。物件名稱是為`Users_E`
 ```{r ans13}
 # Users_E
+
+#選出年級為1~6的使用者
+pick_usergrade_1_to_6 = Info_UserData$user_grade <= "6"
+
+#利用AND來達成所求(年級為1~6且性別為NA的使用者)
+Users_E = Info_UserData$uuid[pick_genderNA & pick_usergrade_1_to_6]
+
 ```
 
 
@@ -107,6 +114,18 @@ __請延續前小題的兩個條件__（屬於國小一到六年級，且性別�
 
 ```{r ans14}
 # Users_E_in_odd_grades
+
+#選出年級為1.3.5的使用者
+pick_usergrade_1 = Info_UserData$user_grade == "1"
+pick_usergrade_3 = Info_UserData$user_grade == "3"
+pick_usergrade_5 = Info_UserData$user_grade == "5"
+
+#利用AND來達成所求(年級為1.3.5且性別為NA的使用者)
+Users_E_in_odd_grades = c(
+  Info_UserData$uuid[pick_genderNA & pick_usergrade_1],
+  Info_UserData$uuid[pick_genderNA & pick_usergrade_3],
+  Info_UserData$uuid[pick_genderNA & pick_usergrade_5]
+)
 ```
 
 ### 1.5 Educational Inequality
@@ -123,7 +142,18 @@ __請延續前小題的兩個條件__（屬於國小一到六年級，且性別�
 - kh, 高雄市
 
 ```{r ans15}
-# Users_E_Not_Metro 
+# Users_E_Not_Metro
+
+#建立六都的資料
+Metro = c("tp","ntpc","ty","tc","tn","kh")
+
+#取出不屬於六都的使用者
+pick_userNotMetro = !(Info_UserData$user_city %in% Metro )
+
+#完成所求
+Users_E_Not_Metro = Info_UserData$uuid[pick_genderNA & pick_usergrade_1_to_6 & pick_userNotMetro]
+
+
 ```
 
 ### 1.6 Better_Cared or Precocious Cohort
@@ -140,6 +170,19 @@ __請延續前小題的兩個條件__（屬於國小一到六年級，且性別�
 
 ```{r ans16}
 # Users_E_Not_Metro_Buffer
+
+#條件一的對象
+pick_coach = Info_UserData$is_self_coach == T
+
+#條件二的對象
+pick_time107 = Info_UserData$first_login_date_TW == "2018-08-30"
+
+#所求
+Users_E_Not_Metro_Buffer = c(
+  Info_UserData$uuid[pick_genderNA & pick_usergrade_1_to_6 & pick_userNotMetro & pick_coach],
+  Info_UserData$uuid[pick_genderNA & pick_usergrade_1_to_6 & pick_userNotMetro & pick_time107]
+)
+
 ```
 
 
@@ -159,14 +202,22 @@ election2020 <- jsonlite::fromJSON(
 ```{r ans21}
 # best_performance_dpp
 
-county = "貢寮區"
-votes = round(7068*0.6679)
-supporting_rate = 0.6679
+#最高得票率為0.6679(將右方的election2020開啟，利用箭頭游標所判斷出的結果)
+pick_highest_supporting = election2020$`(3)
+ 蔡英文
+ 賴清德` == 0.6679
 
+#有最高得票率的鄉鎮市
+country = election2020$`鄉(鎮、市、區)別`[pick_highest_supporting]
+
+#最高投票率的鄉鎮市之總投票數
+votes = round(election2020$有效票數[pick_highest_supporting] * 0.6679)
+
+#所求
 best_performance_dpp = list(
-  "county" = county,
+  "country" = country,
   "votes" = votes,
-  "supporting_rate" = supporting_rate
+  "supporting_rate" = 0.6679
 )
 ```
 
@@ -174,6 +225,19 @@ best_performance_dpp = list(
 
 ```{r ans22}
 # levelSequence
+dppSupportRate = election2020$`(3)
+ 蔡英文
+ 賴清德`
+
+dppSupportRate_sorted = sort(dppSupportRate)
+
+
+names(dppSupportRate_sorted) = c("烏來區","新店區","永和區","中和區","瑞芳區",
+"汐止區","深坑區","淡水區","雙溪區","三芝區","林口區","石門區","平溪區","萬里區","三峽區","八里區",
+"土城區","板橋區","金山區","泰山區","鶯歌區","樹林區","五股區","新莊區","石碇區","三重區","坪林區",
+"蘆洲區","貢寮區")
+
+levelSequence = names(dppSupportRate_sorted)
 ```
 
 (Use named vector to obtain desired level sequence is a very common technique.)
@@ -182,6 +246,16 @@ best_performance_dpp = list(
 
 ```{r ans23}
 # election2020[["鄉(鎮、市、區)別"]]
+
+#將投票率由高排到低(即為dppSupportRate_sorted反轉後的結果)
+dppSupportRate_sorted_reverse = rev(dppSupportRate_sorted)
+
+#建立factor，其中的level也和投票率相似，為names(dppSupportRate_sorted)反轉後的結果
+election2020[["鄉(鎮、市、區)別"]] = factor(
+  election2020[["鄉(鎮、市、區)別"]],
+  levels = rev(names(dppSupportRate_sorted)),
+  order = F
+)
 ```
 
 
