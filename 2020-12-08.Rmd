@@ -1,0 +1,260 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-12-08"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+#規律萃取與取代  利用正規表示式
+
+#str_extract
+
+sameIdentities <- c("臺北市", "台北市", "台北大學", "臺北大學", "基隆市")
+
+str_detect(
+  sameIdentities, pattern="(台|臺)") #TTTTF
+
+str_view_all(
+  sameIdentities, pattern="(台|臺)")
+
+```
+
+```{r}
+str_extract(
+  sameIdentities, pattern="[台臺]北市") #把符合pattern的元素取出  #結果: "臺北市" "台北市"
+```
+
+```{r}
+#應用
+
+dragonPeople <-
+  c(
+    "住在台北市的臺北人也常被稱為天龍人")
+
+str_extract(
+  dragonPeople,
+  pattern="(台|臺)(北)(市|人)"  #只取出台北市(第一個出現)  #等同於pattern = "(台|臺)(北)(市|人)"
+)
+
+# 當一個元素值內的文字規律可多次出現時用_all來一網打盡，否則只處理第一個出現的規律
+str_extract_all(
+  dragonPeople,
+  pattern="[台臺]北[市人]"
+)
+```
+
+```{r}
+#str_replace 字元替換
+#要等長度的捲帶才可替換
+
+Rmdfiles # length=5
+
+str_replace(
+  Rmdfiles,
+  pattern = rep("(R|r)(M|m)(D|d)",5),
+  replacement = rep("Rmd",5)
+)
+```
+
+```{r}
+Rmdfiles # length=5
+
+str_replace(
+  Rmdfiles,
+  pattern = "[Rr][Mm][Dd]",    #文本長度不同會進行recycle
+  replacement = "Rmd"
+)
+```
+
+```{r}
+str_replace_all(
+  string,
+  c(
+    "pattern1"="replacement1",
+    "pattern2"="replacement2",
+  )
+)
+```
+
+```{r}
+#str_replace_all應用
+
+emailContent <- '親愛的_name_朋友好，
+
+  恭喜你，你的電子發票號碼_invoiceNumber_ 差點中獎。'
+
+cat(emailContent)
+```
+
+```{r}
+library(stringr)
+replacementNamedVector <- c(
+  "_name_" = "小新",
+  "_invoiceNumber_" = "EF-89400133"
+)
+
+synthesizedContent <- str_replace_all(
+  emailContent,
+  replacementNamedVector
+)
+cat(synthesizedContent)
+```
+
+```{r}
+#複製次數Quantifiers
+
+set.seed(2020)
+d1 <- sample(c(rep("4",10),rep("3",3),rep("7",3)), 25, replace=T)
+d2 <- sample(98:109, 25, replace=T)
+d3 <- sample(c("73", "74", "78", "83", "72"))
+d4 <- sample(1:120, 25, replace=T)
+d4 <- str_pad(d4, 3, side = "left", pad="0")
+schoolIds <- paste0(d1,d2,d3,d4)
+schoolIds
+```
+
+```{r}
+#如何取得9位數的學號?
+# {x} 前方卷帶連裝x條
+#下列三方法皆得到同個結果
+
+str_subset(schoolIds,
+           pattern="[0123456789]{9}") #0~9的捲帶連裝9條
+
+str_subset(schoolIds,
+           pattern="[0-9]{9}")
+
+str_subset(schoolIds,
+           pattern="[:digit:]{9}")
+```
+
+```{r}
+#{x}應用
+
+myLove2R <- c("我實在是太愛太愛太愛愛R課程了",
+  "我才是太愛太愛太太愛太太太愛R了",
+  "我則是太愛愛太愛太愛愛愛R了",
+  "找我太太聊天，我太太愛理不理的，我只好回去練我最愛的R。")
+```
+
+```{r}
+#1.找出連寫兩次「太愛」的句子
+str_view_all(myLove2R, "(太愛){2}")
+
+#等同於str_view_all(myLove2R, "(太愛太愛)")
+```
+
+```{r}
+#2.找出「太愛」及「太愛愛」 #太出現一次 愛出現1~2次
+
+#{m,n}以及?的應用
+
+str_view_all(myLove2R, "太[愛]{1,2}") # {1,2} [愛]卷帶裝1～2條   意思:"太"出現一次 "愛"出現1次或2次
+
+str_view_all(myLove2R, "太愛[愛]?") # ? 前面卷帶不確定要不要裝（要裝也只會裝1條）
+
+
+###注意
+#{m,n}是指裝m到n條：
+
+#{2,5}指裝2到5條，不是2條或5條
+```
+
+```{r}
+#3.找出「太愛」，太後方的"愛"字次數不限
+str_view_all(myLove2R, "太[愛]+") #「太愛」「太愛愛」「太愛愛愛」....
+
+str_view_all(myLove2R, "太[愛]*") #包含了後方沒有"愛"字的結果(例如 "太"  "太太")
+```
+
+```{r}
+#正規表示式:目標位置註解
+
+#前後鄰居描述
+#? What    = is   < in the front
+#  ?<= x    x前面有..
+#  ?= x    x後面有..
+#  ?<!    x前面沒有..
+#  ?!    x後面沒有..
+```
+
+```{r}
+str_view_all(myLove2R, "太愛[愛]?")  #"太"開頭  "愛"結尾 中間一定有愛
+
+str_view_all(myLove2R, "太+愛+")  #"太"開頭 "愛"結尾 中間不一定有愛
+
+str_view_all(myLove2R, "太+愛+(?!理不理)")  #"太愛" 後面不能接 "理不理"
+```
+
+```{r}
+#前後鄰居應用
+#找出縣市後的下一級行政區（即xxx區，xxx鎮）
+addresses <- c(
+  '臺中市后里區公館里尾社路385號',
+  '新竹市東區科學園路125號1樓',
+  '新竹市北區竹光路99號',
+  '金門縣金城鎮賢庵里山前33號',
+  '臺中市南屯區工業區二十四路23號1樓')
+
+str_extract(
+  addresses,
+  "(?<=[縣市])[\u4E00-\u9FFF]+[區鎮]"  #結果 : "后里區" "東區"   "北區"   "金城鎮" "南屯區工業區"
+)
+```
+
+```{r}
+#字元排除卷帶[^XYZ]：要排除的字元XYZ
+
+str_extract(
+  addresses,
+  "(?<=[縣市])[^區]+[區鎮]"  #結果 : "后里區" "東區"   "北區"   "金城鎮" "南屯區"
+)
+```
+
+```{r}
+#頭尾定位
+
+#1.目標在開頭    ^目標  ###不要和字元排除卷帶 [^XYZ] 搞混
+#2.目標在結尾    目標$
+
+Rmdfiles <- c("file1.Rmd", "file2.R", "file3.rmd", "file4.RMD", "myRmd.R")
+
+str_subset(
+  Rmdfiles, "[Rr][Mm][Dd]"
+)
+
+# 要求在句尾(只顯示句尾有Rmd者  R結尾的會不見)
+str_subset(
+  Rmdfiles, "[Rr][Mm][Dd]$"
+)
+```
+
+```{r}
+#計算HW2有多少個小題?
+
+download.file("https://www.dropbox.com/s/o9kt3lxtx9pmjqj/homework2.Rmd?dl=1", destfile = "./hw2.Rmd", mode="wb")
+xfun::read_utf8("./hw2.Rmd") -> hw2lines
+View(hw2lines)
+
+pick_starting3Hash <- str_detect(
+  hw2lines,
+  "^### (?=[0-9])"  #選出字串最前方有### x(x = 0~9)的元素
+)
+sum(pick_starting3Hash)
+```
+
+
+
+
+
+
+
