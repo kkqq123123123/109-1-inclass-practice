@@ -1,0 +1,222 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-12-07"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+install.packages("purrr")
+library(purrr)
+```
+
+```{r}
+sukiyaMenu <- jsonlite::fromJSON("https://www.dropbox.com/s/iu9b1hnvbtss83q/sukiyaMenu.json?dl=1")
+
+nonsetMenu3 <- sukiyaMenu[c("豪華雙饗丼", "牛丼類", "咖哩類" )]
+```
+
+```{r}
+items <- list()
+items$dish_name = vector("list", length=3)
+```
+
+```{r}
+# 餐點名稱
+dish_name = nonsetMenu3[[1]]$name
+items$dish_name[[1]] <- unlist(dish_name)
+
+dish_name = nonsetMenu3[[2]]$name
+items$dish_name[[2]] <- unlist(dish_name)
+
+dish_name = nonsetMenu3[[3]]$name
+items$dish_name[[3]] <- unlist(dish_name)
+```
+
+```{r}
+# 餐點名稱
+#可以用{}包覆住以利分段的思考
+
+{
+  dish_name <- nonsetMenu3[[1]]$name
+  items$dish_name[[1]] <- unlist(dish_name)
+}
+
+{
+  dish_name <- nonsetMenu3[[2]]$name
+  items$dish_name[[2]] <- unlist(dish_name)
+}
+
+{
+  dish_name <- nonsetMenu3[[3]]$name
+  items$dish_name[[3]] <- unlist(dish_name)
+}
+```
+
+```{r}
+#{}內的最後一個xpression的可視(visible)值 可以當做值用來賦予一個物件元素值
+
+result <- {...} # 或
+
+{...} -> result
+```
+
+```{r}
+{
+  dish_name <- nonsetMenu3[[1]]$name # 1st expression
+  items$dish_name[[1]] <- unlist(dish_name)  # 2nd expression
+}
+
+
+#最後一個expression的可視結果
+items$dish_name[[1]]  # 或
+unlist(dish_name)
+```
+
+```{r}
+###注意 cat()函數不會留下可視值  右方的Value result4為NULL!
+
+result4 <- {
+  dish_name <- nonsetMenu3[[1]]$name # 1st expression
+  cat(unlist(dish_name))  # 2nd expression
+}
+
+#可用print來解決問題
+result5 <- {
+  dish_name <- nonsetMenu3[[1]]$name # 1st expression
+  print(unlist(dish_name))  # 2nd expression
+}
+```
+
+```{r}
+#Block Programming
+
+#小明點了“牛肉燒烤雞肉雙饗丼”飯大碗，小英點了“秋葵牛丼”迷你碗, 兩人總共花了多少錢
+
+#想法
+mingsPrice <- # 找出小明價格
+{
+  
+}
+
+yingsPrice <- # 找出小英價格
+{
+  
+}
+
+total= mingsPrice + yingsPrice
+```
+
+```{r}
+#實作
+
+mingsPrice <- # 找出小明價格
+{
+  sizeChoice <- nonsetMenu3[["豪華雙饗丼"]][["product_variations"]][[2]]
+  pick_size <- sizeChoice$name == '飯大碗'
+  sizeChoice$price[pick_size]
+}
+
+yingsPrice <- # 找出小英價格
+{
+  sizeChoice <- nonsetMenu3[["牛丼類"]][["product_variations"]][[4]]
+  pick_size <- sizeChoice$name == '迷你碗'
+  sizeChoice$price[pick_size]
+}
+
+total= mingsPrice + yingsPrice
+```
+
+```{r}
+#formula and purrr::map
+
+library(purrr)
+
+map(
+  list(2,5,3,7),
+  ~{   # ~ 為R特殊符號 class將變為formula
+    3^.x  #回傳值為3的.x次方
+  }
+)  #結果:  9(3^2)   243(3^5)   27(3^3)  2187(3^7)
+
+map(
+  c(2,5,3,7),   #可用c()來表達
+  ~{
+    3^.x
+  }
+)
+```
+
+```{r}
+map(
+  list(
+    list("Mary", 5),
+    list("John", 10)
+  ),
+  ~{
+    paste0(.x[[1]], " is ",.x[[2]], " years old")
+  }
+)
+
+#結果:  Mary is 5 years old
+#John is 10 years old
+```
+
+```{r}
+{
+  paste0(list("Mary", 5)[[1]], " is ",list("Mary", 5)[[2]], " years old")
+}
+```
+
+```{r}
+{
+  paste0(list("John", 10)[[1]], " is ",list("John", 10)[[2]], " years old")
+}
+```
+
+```{r}
+#.x的使用方法有兩種
+
+myData <- 
+  list(
+    list("Mary", 5),
+    list("John", 10)
+  )
+
+#1  .x 代表myData的"元素"
+map(
+  myData,
+  ~{
+    paste0(.x[[1]], " is ",.x[[2]], " years old")
+  }
+)
+
+#2  .x 代表myData元素值的"位置"
+map(
+  1:2,
+  ~{
+    paste0(myData[[.x]][[1]], " is ", myData[[.x]][[2]], " years old")
+  }
+)
+```
+
+```{r}
+#可以用seq_along()函數來產生元素位置sequence
+
+map(
+  seq_along(myData),
+  ~{
+    paste0(myData[[.x]][[1]], " is ", myData[[.x]][[2]], " years old")
+  }  
+)
+```
+
+
