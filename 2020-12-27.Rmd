@@ -1,0 +1,98 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-12-27"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+grades <- c(55, 72, 40) # fail in first
+# any one failed? 
+if(grades < 60) message("\nYes, someone failed")
+```
+
+```{r}
+grades <- c(72, 55, 40) # fail in second
+# any one failed? 
+if(grades < 60) message("\nYes, someone failed")
+```
+
+```{r}
+#上面2個皆非正確寫法
+
+#all() to flag if all failed (是否所有元素都滿足此條件?)
+
+#any() to flag if any failed (是否有元素滿足此條件?)
+
+grades <- c(72, 55, 82)
+# any one failed? 
+if(any(grades < 60)) message("\nYes, someone failed")
+```
+
+```{r}
+#可改變R的環境使得length>1出現error以警惕使用者
+Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "true")
+```
+
+```{r}
+grades <- c(55, 72, 82)
+# any one failed? 
+if(grades < 60) message("\nYes, someone failed") # error now
+```
+
+```{r}
+#&和&&   |和||
+
+grade1 <- list(    #以list儲存
+  economics=55,
+  calculus=77
+)
+grade2 <- c(   #以vector儲存
+  economics=55,
+  calculus=77
+)
+```
+
+```{r}
+# &:條件都會判斷
+(is.list(grade1) &  grade1$economics > 60)
+(is.list(grade2) &  grade2$economics > 60)  #出現Error(因為兩個條件都會去判斷，而後項條件造成Error)
+```
+
+```{r}
+# &&:條件分別判斷
+(is.list(grade1) && grade1$economics > 60)
+(is.list(grade2) && grade2$economics > 60) #前項已經是False 回傳值:False 不管後項
+```
+
+```{r}
+myAge <- 75
+
+# |:條件都會去檢查
+if(myAge >=65 | stop("Error")){  #出現Error(因為兩個條件都會去判斷，而後項條件造成Error)
+  "Qualified"
+} else {
+  warning("Not qualified")
+}
+```
+
+```{r}
+# ||:條件分別判斷
+if(myAge >=65 ||  stop("Error")){    #前項已為True，回傳值:True，不用管後項
+  "Qualified"
+} else {
+  warning("Not qualified")
+}
+```
+
+
+
+
