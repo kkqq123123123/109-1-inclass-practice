@@ -1,0 +1,249 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2020-12-29"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+#題目: f(x)=  x/2 if x is even    f(x) = -(x+1)/2 if x is odd
+
+#前提
+x = 4L
+
+#任務
+fx = {
+  #x is even 
+  {
+  
+  }
+  
+  #x is odd
+  {
+    
+  }
+}
+```
+
+```{r}
+get_fx1 = function(x){
+  #x is even 
+  {
+    if(x%%2 == 0) {
+      return(x/2)
+    }
+  }
+  
+  #x is odd
+  {
+    if(x%%2 == 1) {
+      return(-(x+1)/2)
+    }
+  }
+}
+```
+
+```{r}
+get_fx1(4)
+get_fx1(5)
+```
+
+```{r}
+#可由if else來完成
+get_fx2 = function(x)
+{
+  # ending scenario 1:
+  if(x %% 2 ==0)
+  {
+    return(x/2)
+  } else   ############注意:else must follow } immediately in the same line
+  # ending scenario 2:
+  {
+    return(-(x+1)/2)
+  }
+}
+```
+
+```{r}
+get_fx2(4)
+get_fx2(5)
+```
+
+```{r}
+#多個if else的使用
+
+#題目:
+#>=90: 優  condition A
+
+#80-89：良  condition B
+
+#70-79：尚可  condition C
+
+#70以下：待加強  else
+```
+
+```{r}
+comment = {
+  #成績>=90 print優
+  {
+    
+  }
+  
+  #成績80~90 print良
+  {
+    
+  }
+  
+  #成績70-79 print尚可
+  {
+    
+  }
+  
+  #else print待加強
+  {
+    
+  }
+}
+```
+
+```{r}
+get_comment = function(grade) {
+  
+  assertthat::assert_that(is.double(grade) & (grade>=0) & (grade<= 100),msg = "grade should be integer and 0<=grade<=100")
+  
+  #成績>=90 print優
+  
+    if(grade >= 90) {
+      print("優")
+    } else
+  
+  
+  #成績80~90 print良
+  
+    if(90 > grade && grade >= 80) {
+      print("良")
+    } else
+  
+  
+  #成績70-79 print尚可
+    
+    if(80 > grade && grade >= 70) {
+      print("尚可")
+    } else
+  
+  #else print待加強
+  {
+    print("待加強")
+  }
+}
+```
+
+```{r}
+get_comment(92)
+get_comment(85)
+get_comment(70)
+get_comment(43)
+```
+
+```{r}
+get_comment("43")
+```
+
+```{r}
+get_comment(120)
+```
+
+```{r}
+get_comment(-10)
+```
+
+```{r}
+#switch
+
+#題目Notifiy you what kind of mails has come in, then sort and store it in the following list
+sortedEmails <- list(
+  office=character(),
+  student=character(),
+  private=character()
+)
+```
+
+```{r}
+set.seed(2839)
+emailFrom <- sample(
+  c("econ@gm.ntpu.edu.tw","classStudents@gm.ntpu.edu.tw","xxx@gmail.com","econStaff@gm.ntpu.edu.tw","yyyy@gmail.com"), 50,
+  replace=T
+)
+head(emailFrom, 10)
+```
+
+```{r}
+#office
+{
+  
+}
+
+#Student
+{
+  
+}
+
+#Private
+{
+  
+}
+```
+
+```{r}
+library(stringr)
+library(purrr)
+
+commingEmail = emailFrom[[2]]
+
+condition_sgn <- 
+  ifelse(
+    str_detect(commingEmail,"econ"), "office", commingEmail)
+
+switch(
+  condition_sgn,
+  "office"={
+    message("You have a message from office.")
+    nOffice <- length(sortedEmails$office)
+    sortedEmails$office[[nOffice+1]] <- commingEmail
+    sortedEmails
+  },
+  "classStudents@gm.ntpu.edu.tw"={
+    message("There is an email from student in your class.")
+    nStudent <- length(sortedEmails$student)
+    sortedEmails$student[[nStudent+1]] <- commingEmail
+    sortedEmails
+  },
+  {    #其他的不用命名
+    message("A private message has come in.")
+    nPrivate <- length(sortedEmails$private)
+    sortedEmails$private[[nPrivate+1]] <- commingEmail
+    sortedEmails
+  }
+)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
