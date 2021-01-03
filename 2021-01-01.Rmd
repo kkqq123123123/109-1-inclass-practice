@@ -1,0 +1,189 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2021-01-01"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+#Iterates and Iterator
+
+sampleData <- list(
+  list("男", 45), list("女", 32), list("男",50), list("男",33), list("女", 21)
+)
+
+#目標:取出sampleData每一個元素底下的第一個元素值（即性別值）
+
+sampleData[[1]][[1]]
+sampleData[[2]][[1]]
+sampleData[[3]][[1]]
+sampleData[[4]][[1]]
+sampleData[[5]][[1]]
+```
+
+```{r}
+library(stringr)
+library(purrr)
+```
+
+```{r}
+map(
+  1:5,
+  ~{
+    sampleData[[.x]][[1]]
+  }
+)
+```
+
+```{r}
+for(.x in c(1,2,3,4,5)) 
+{
+  print(sampleData[[.x]][[1]])
+}
+```
+
+```{r}
+for(.x in sampleData)
+{
+  print(.x[[1]])
+}
+```
+
+```{r}
+for(.x in list(sampleData[[1]][[1]], sampleData[[2]][[1]], sampleData[[3]][[1]], sampleData[[4]][[1]],sampleData[[5]][[1]]) )
+{
+  print(.x)
+}
+```
+
+```{r}
+set.seed(2851)
+exams <- sample(c(30:100, NA), 50, replace = T, prob = c(rep(0.8/71,71), 0.2))
+homeworks <- sample(c(50:100, NA), 50, replace = T, prob = c(rep(0.9/51,51), 0.1))
+grades <-
+  list(
+    exam=exams,
+    homework=homeworks
+  )
+
+#目標:算出所有學生英文成績，學期總成績（作業40%，考試60%)，學期成績通知信內容
+#A: >=80  B: [70, 80)  C: [60, 70)  F: [0, 60)
+
+results <- 
+  list(
+    semesterGrade=vector("numeric", length(grades$exam)),
+    letterGrade=vector("character", length(grades$exam)),
+    emailContent=vector("character", length(grades$exam))
+  )
+```
+
+```{r}
+#Block diagram
+
+{
+  #取出exams成績 homework成績
+  {
+    examX = grades$exam
+    homeworksX = grades$homework
+  }
+  
+  #算出學期成績
+  semesterGrade = {
+    0.4 * homeworksX + 0.6 * examX
+  }
+  
+  #算出英文成績
+  letterGrade = {
+    if (semesterGrade >= 80) {
+      print("A")
+    } else
+    if (semesterGrade < 80 && semesterGrade >= 70) {
+      print("B")
+    } else
+    if (semesterGrade < 70 && semesterGrade >= 60) {
+      print("C")
+    } else
+    {
+      print("F")
+    }
+  }
+  
+  #通知信內容
+  emailContent <- {
+    glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+  }
+  
+  #存起
+  {
+    results$semesterGrade[[.x]] <- semesterGrade
+    results$letterGrade[[.x]] <- letterGrade
+    results$emailContent[[.x]] <- emailContent
+  }
+}
+```
+
+```{r}
+{
+  for(.x in 1:50)  {
+  #取出exams成績 homework成績
+  {
+    {
+      examX = grades$exam[[.x]]
+      homeworksX = grades$homework[[.x]]
+    }
+  }
+  
+  #算出學期成績
+  semesterGrade = {
+    examX <- ifelse(is.na(examX), 0, examX)
+    homeworksX <- ifelse(is.na(homeworksX), 0, homeworksX)
+    0.4 * homeworksX + 0.6 * examX
+  }
+  
+  #算出英文成績
+  letterGrade = {
+    if (semesterGrade >= 80) {
+      print("A")
+    } else
+    if (semesterGrade < 80 && semesterGrade >= 70) {
+      print("B")
+    } else
+    if (semesterGrade < 70 && semesterGrade >= 60) {
+      print("C")
+    } else
+    {
+      print("F")
+    }
+  }
+  
+  #通知信內容
+  emailContent = {
+    glue::glue("親愛的同學：\n\n本學期你的考試成績為{examX}，作業成績為{homeworksX}，經換算學期成績為{semesterGrade}（為{letterGrade}等）。\n\n祝學習愉快")
+  }
+  
+  #存起
+  {
+    results$semesterGrade[[.x]] <- semesterGrade
+    results$letterGrade[[.x]] <- letterGrade
+    results$emailContent[[.x]] <- emailContent
+  }
+  
+  }
+}
+```
+
+
+
+
+
+
+
+
