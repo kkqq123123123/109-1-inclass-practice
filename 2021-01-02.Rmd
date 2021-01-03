@@ -1,0 +1,118 @@
+---
+title: "課?<a0>?練習模<e7><89><88>"
+author: "kkqq123123123"
+date: "2021-01-02"
+output: output_format
+params:
+  id: "410886026"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+#while loop
+
+sampleData <- list(
+  list("男", 45), list("女", 32), list("男",50), list("男",33), list("女", 21)
+)
+```
+
+```{r}
+.x <- 0 # initial iterate
+flag <- TRUE # initial flag
+while(flag)
+{
+  .x <- .x+ 1 # Iterate generation
+  print(sampleData[[.x]][[1]])
+  flag <- (.x < 5) # continuation flag
+}
+```
+
+```{r}
+#safe guard whileloop
+.x <- 0 # initial iterate
+flag <- TRUE # initial flag
+cat('Iterate .x starts at 0, and continue to\n')
+while(flag && .x <= 100) # throw in maximal iterate restriction(加上最多可run幾次的限制以免flag出錯)
+{
+  .x <- .x+ 1 # Iterate generation
+  print(sampleData[[.x]][[1]])
+  flag <- (.x < 5) # continuation flag 
+  cat('.x = ', .x, ' complete\n')
+}
+```
+
+```{r}
+#Guess number
+#Block diagram
+
+{
+# computer pick a number(電腦選的數字)
+.computerPick <- {
+  
+}
+
+# iteration time
+.x <- 1
+
+# user guess(使用者輸入的數字)
+userGuess <- readline("What's your guess?")
+
+# conditional execution of 3 blocks
+{
+  "Higher"
+}
+
+{
+  "Lower"
+}
+
+{
+  glue::glue("BINGO!!! You guess it right after {.x} trials")
+}
+}
+```
+
+```{r}
+# computer pick a number
+.computerPick <- {
+  sample(10:50, 1)
+}
+
+# iteration time
+.x <- 0
+flag <- T
+while(flag)
+# iteration block
+{
+  # iteration generation
+  .x <- .x + 1
+  
+  # user guess
+  userGuess <- readline("What's your guess?")
+
+  # conditional execution of 3 blocks
+  result <-
+    if (as.integer(userGuess) < .computerPick) {
+      "Higher"
+    } else
+    if (as.integer(userGuess) > .computerPick) {
+      "Lower"
+    } else {
+      glue::glue("BINGO!!! You guess it right after {.x} trials")
+    }
+
+  message(result)
+  
+  # continuation flag
+  flag <- ! stringr::str_detect(result, "BINGO")
+}
+```
+
+
+
+
