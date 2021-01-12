@@ -48,9 +48,9 @@ sampleMatrix
 # 任務前提
 n <- dim(sampleMatrix)[[1]]
 diagX <- vector("numeric", n)
-
 # 任務目標: 縮小任務，只一個i值, 
 i <- 1
+
 diagX[[i]] <- sampleMatrix[[i,i]]
 
 #規律:取出sampleMatrix的(i,i)其中 i=1,2,3,4,5,6,7
@@ -59,7 +59,7 @@ for( i in  c(1,2,3,4,5,6,7) ) {
 }
 
 diagX
-
+  
 # diagX
 ```
 
@@ -68,23 +68,17 @@ diagX
 ```{r ans122, echo=TRUE}
 # 任務前提
 n <- dim(sampleMatrix)[[1]]
-
 # 任務目標(縮小版): i <- 3，找出所有x_{3j}, where j <= 3
-i <- 3
 lowerTriX <- vector("list", n)
-lowerTriX[[i]] <- 
+for(i in 1:n){
+  lowerTriX[[i]] <- vector("numeric", i)
+  for(j in 1:i)
   {
-    # 任務前提: 給定前面的i
-    # 任務目標: 找出所有比i小的j所對應的sampleMatrix[i,j]值
-    
-    
-    
-    
-    
-    
+     lowerTriX[[i]][[j]] <- sampleMatrix[i,j]
   }
+}
 
-# lowerTriX
+lowerTriX
 ```
 
 #### 12.3 Covariate columns{-}
@@ -159,18 +153,33 @@ flag_continuation <- T
 while(flag_continuation)
 {
   # iterate generation
+  .x = .x + 1
   
   # for each iterate, you iteration block
-  {
+  
     userInput <- 
       readline("Please input your password ")
-
-  }
+    
+    result =  {
+    if(userInput == realPassword) {
+      result = "Password correct."
+    } 
+    
+    if(userInput != realPassword) {
+      result = "The password is wrong."
+    }
+    
+    result
+    }
+    message(result)
   
   # continuation flag generation (update)
-  
+  flag_continuation = (.x < 3)
 }
 
+if(.x >= 3 && userInput != realPassword) {
+    print("You have input wrongly 3 times!")
+}
 
 ```
 
@@ -185,17 +194,44 @@ maxIt <- 5
 while(flag_continuation && .x <= maxIt)
 {
   # iterate generation
+  .x = .x + 1
   
   # iteration block
   {
     userInput <- readline("Input your password ")
+    flag1 = (str_length(userInput) < 6 || str_length(userInput) > 10 ) 
+    flag2 = str_detect(userInput, pattern = "[0-9]")
+    flag3 = str_detect(userInput, pattern = "[:lower:]")
+    flag4 = str_detect(userInput, pattern = "[:upper:]")
     
+    if(flag1 == T) {
+      result1 = "password should contain 6-10 characters"
+      message(result1)
+    } 
+    
+    
+    if(flag2 == F) {
+      result2 = "Need at least one number"
+      message(result2)
+    } 
+    
+    if(flag3 == F) {
+      result3 = "Need at least one small case letter"
+      message(result3)
+    } 
+    
+    
+    if(flag4 == F) {
+      result4 = "Need at least one capital letter"
+      message(result4)
+    } 
     
   }
   
   # continuation flag update (generation)
-  
+  flag_continuation = (.x < 5)
   
 }
 ```
+
 
